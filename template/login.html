@@ -1,0 +1,44 @@
+{% extends "main.html" %} {% block content %}
+<div class="banner-sign-up">
+  <div class="login">
+    {% if messages %} {% for message in messages %}
+    <div
+      class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}"
+      role="alert"
+    >
+      {{ message }}
+    </div>
+    {% endfor %} {% endif %}
+
+    <form action="{% url 'login-user' %}" method="post">
+      {% csrf_token %}
+      <h2>Login Here</h2>
+
+      <label for="username">Email</label>
+      <input type="text" name="email" placeholder="Email " id="username" />
+
+      <label for="password">Password</label>
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        id="password"
+      />
+
+      <button class="input-box">Log In</button>
+      <div class="text">
+        <h3>Don't have an account ? <a href="reg">Sign Up</a></h3>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+  .alert-error {
+    background: #e1a4a4;
+    color: red;
+    font-size: 14px;
+    font-weight: 300;
+  }
+</style>
+{% endblock %}

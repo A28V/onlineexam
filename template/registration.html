@@ -1,0 +1,412 @@
+{% extends "main.html" %}
+
+{% block content %}
+<div class="banner-sign-up">
+  {% if messages %}
+    {% for message in messages %}
+    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+  <div class="wrapper-sign-up">
+    <h2>Registration</h2>
+    <form method="post" action="{% url 'reg-user' %}">
+      {% csrf_token %}
+	  <div class="col-12">
+		  <div class="row">
+			  <div class="input-box col-sm-6">
+				<input type="email" name="email" placeholder="Enter your email" required>
+			  </div>
+			  <div class="input-box col-sm-6">
+				<input type="text" name="username" placeholder="Enter your username" required>
+			  </div>
+		  </div>
+	  </div>
+	  <div class="col-12">
+		  <div class="row">
+			  <div class="input-box col-sm-6">
+				<input type="password" name="password" id="password" placeholder="Enter your password" required>
+			  </div>
+			  <div class="input-box col-sm-6">
+				<input type="password" name="confirm_password" id="confirm_password_text" placeholder="Enter your confirm password" required>
+			  </div>
+          </div>
+	  </div>
+	  <div class="col-12">
+		  <div class="row">
+			  <div class="input-box col-sm-6">
+				<input type="text" name="phone" placeholder="Enter your phone number" required>
+			  </div>
+			  <div class="input-box col-sm-6">
+					<select class="form-select" name="gender" required>
+					  <option value="" disabled selected>Select your gender</option>
+					  <option value="Male">Male</option>
+					  <option value="Female">Female</option>
+					  <option value="Other">Other</option>
+					</select>
+				  </div>
+			
+
+		  </div>
+	  </div>
+	  <div class="col-12">
+		  <div class="row">
+				  <div class="input-box col-sm-6">
+					<input type="text" name="city" placeholder="Enter your city" required>
+				  </div>
+				  <div class="input-box col-sm-6">
+					<select id="stateSelect" class="form-select" name="stateSelect" required>
+					  <option value="" disabled selected>Select your state</option>
+					  
+					</select>
+				  </div>
+		  </div>
+	  </div>
+      <div class="policy">
+        <input type="checkbox" required>
+        <h3>I accept all terms & conditions</h3>
+      </div>
+      <div class="input-box button">
+        <input type="submit" class="btn btn-success" value="Register Now">
+      </div>
+      <div class="text">
+        <h3>Already have an account? <a href="{% url 'login' %}">Login now</a></h3>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+    // List of states in India
+    var indianStates = [
+        "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
+        "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
+        "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
+        "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana",
+        "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+    ];
+
+    // Get the select element
+    var stateSelect = document.getElementById("stateSelect");
+
+    // Populate the select element with Indian states
+    indianStates.forEach(function(state) {
+        var option = document.createElement("option");
+        option.value = state;
+        option.text = state;
+        stateSelect.appendChild(option);
+    });
+</script>
+
+
+<script>
+  var myInput = document.getElementById("password");
+  var letter = document.getElementById("letter");
+  var capital = document.getElementById("capital");
+  var number = document.getElementById("number");
+  var length = document.getElementById("length");
+  var special_char = document.getElementById("special_char");
+  const tooltipinfo = document.querySelector('.tooltipinfo');
+  myInput.onfocus = function () {
+    document.getElementById("password_message").style.display = "block"
+  }
+  //const password_message=document.getElementById("message");
+  // When the user clicks outside of the password field, hide the message box
+
+
+  // When the user starts to type something inside the password field
+  myInput.addEventListener('input', () => {
+    // Validate lowercase letters
+    var lowerCaseLetters = /[a-z]/g;
+    if (myInput.value.match(lowerCaseLetters)) {
+      letter.classList.remove("invalid");
+      letter.classList.add("valid");
+    } else {
+      letter.classList.remove("valid");
+      letter.classList.add("invalid");
+    }
+
+    // Validate capital letters
+    var upperCaseLetters = /[A-Z]/g;
+    if (myInput.value.match(upperCaseLetters)) {
+      capital.classList.remove("invalid");
+      capital.classList.add("valid");
+    } else {
+      capital.classList.remove("valid");
+      capital.classList.add("invalid");
+    }
+
+    // Validate numbers
+    var numbers = /[0-9]/g;
+    if (myInput.value.match(numbers)) {
+      number.classList.remove("invalid");
+      number.classList.add("valid");
+    } else {
+      number.classList.remove("valid");
+      number.classList.add("invalid");
+    }
+
+    // Validate length
+    if (myInput.value.length >= 8) {
+      length.classList.remove("invalid");
+      length.classList.add("valid");
+    } else {
+      length.classList.remove("valid");
+      length.classList.add("invalid");
+    }
+
+    var special_charcheck = /[!\@\#\$\%\^\&\*\(\)\_\-\+\=\?\>\<\.\,]/
+    if (myInput.value.match(special_charcheck)) {
+      special_char.classList.remove("invalid");
+      special_char.classList.add("valid");
+    } else {
+      special_char.classList.remove("valid");
+      special_char.classList.add("invalid");
+    }
+
+  });
+  const confirm_password = document.getElementById("password-confirmation");
+  const confirm_password_error = document.getElementById("password-confirmation-error");
+  const confirmpwdmatch = document.querySelector('.confirm_password_text');
+  function confirm_password_valid() {
+
+    const confirm_password_match = document.querySelector('.check_confirm_pwd');
+
+    if (confirm_password.value == myInput.value && confirm_password.value != "") {
+      confirm_password_match.classList.add('valid');
+      confirmpwdmatch.classList.add('match');
+      confirm_password_error.classList.add('valid_info_empty_none');
+      confirm_password_error.classList.remove('check_confirm_password');
+    }
+    else {
+      confirmpwdmatch.classList.remove('match');
+      confirm_password_match.classList.remove('valid');
+      confirm_password_error.classList.remove('valid_info_empty_none');
+      confirm_password_error.classList.add('check_confirm_password');
+    }
+  }
+  confirm_password.onblur = function () {
+    confirm_password_error.classList.remove('check_confirm_password');
+  }
+  confirm_password.addEventListener('input', () => { confirm_password_valid(); });
+  confirm_password.addEventListener('click', () => {
+    confirm_password_valid();
+    document.getElementById('password-confirmation-error').style.display = 'block';
+    confirm_password_error.innerHTML = "Please enter the same value again."
+  });
+  confirm_password.addEventListener('change', () => { confirm_password_valid(); });
+
+
+</script>
+
+
+{% endblock %}
+
+
+
+{% block addscript %}
+
+<!--script>
+
+  var myInput = document.getElementById("password");
+  var letter = document.getElementById("letter");
+  var capital = document.getElementById("capital");
+  var number = document.getElementById("number");
+  var length = document.getElementById("length");
+  var special_char = document.getElementById("special_char");
+  const tooltipinfo = document.querySelector('.tooltipinfo');
+  // myInput.onfocus = function() {
+  // document.getElementById("message").style.display = "block";
+  // }
+   //const password_message=document.getElementById("message");
+  // When the user clicks outside of the password field, hide the message box
+
+
+  // When the user starts to type something inside the password field
+  myInput.addEventListener('input', () => {
+    // Validate lowercase letters
+    var lowerCaseLetters = /[a-z]/g;
+    if (myInput.value.match(lowerCaseLetters)) {
+      letter.classList.remove("invalid");
+      letter.classList.add("valid");
+    } else {
+      letter.classList.remove("valid");
+      letter.classList.add("invalid");
+    }
+
+    // Validate capital letters
+    var upperCaseLetters = /[A-Z]/g;
+    if (myInput.value.match(upperCaseLetters)) {
+      capital.classList.remove("invalid");
+      capital.classList.add("valid");
+    } else {
+      capital.classList.remove("valid");
+      capital.classList.add("invalid");
+    }
+
+    // Validate numbers
+    var numbers = /[0-9]/g;
+    if (myInput.value.match(numbers)) {
+      number.classList.remove("invalid");
+      number.classList.add("valid");
+    } else {
+      number.classList.remove("valid");
+      number.classList.add("invalid");
+    }
+
+    // Validate length
+    if (myInput.value.length >= 8) {
+      length.classList.remove("invalid");
+      length.classList.add("valid");
+    } else {
+      length.classList.remove("valid");
+      length.classList.add("invalid");
+    }
+
+    var special_charcheck = /[!\@\#\$\%\^\&\*\(\)\_\-\+\=\?\>\<\.\,]/
+    if (myInput.value.match(special_charcheck)) {
+      special_char.classList.remove("invalid");
+      special_char.classList.add("valid");
+    } else {
+      special_char.classList.remove("valid");
+      special_char.classList.add("invalid");
+    }
+
+  });
+
+
+  passPattern = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+  const pwdmatch = document.querySelector('.password_text');
+  const check_password = document.querySelector('.check_password');
+
+  function passwordPattern(){
+  if (myInput.value.match(passPattern)) {
+      pwdmatch.classList.add('match');
+    check_password.classList.add('valid');
+    tooltipinfo.classList.remove('tooltipinfo_wrong');
+    }
+    else {
+      pwdmatch.classList.remove('match');
+    check_password.classList.remove('valid');
+      tooltipinfo.classList.add('tooltipinfo_wrong');
+  }
+  }
+  myInput.addEventListener('keyup', () => {
+    passwordPattern();
+   tooltipinfo.classList.add('password_position');
+  });
+     $("#password").on("click",function(e){
+          passwordPattern();
+          $("#password-error").hide();
+          if(myInput.value!=""){
+           tooltipinfo.classList.add('password_position');
+          }
+          })
+   $("#password").on("contextmenu",function(e){
+          tooltipinfo.classList.add('tooltipinfo_wrong');
+           passwordPattern();
+          });
+  myInput.onblur  = function() {
+  tooltipinfo.classList.remove('tooltipinfo_wrong');
+  tooltipinfo.classList.remove('password_position');
+  }
+   document.getElementById('form-validate').addEventListener('submit', function (e) {
+       if (myInput.value.match(passPattern) ) {
+          return true;
+         }
+    else {
+      if(myInput.value!=""){
+        pwdmatch.classList.remove('match');
+        tooltipinfo.classList.add('tooltipinfo_wrong');
+      }
+            e.preventDefault();
+      var x = $(this).offset().top;
+      $('html,body').animate({scrollTop: x - 300}, 500);
+      return false;
+     }
+});
+  const emailPattern = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$/;
+  const email_check = document.getElementById("email_address");
+  const email_match = document.querySelector('.check_email');
+  const email_message = document.querySelector('#message_email');
+  const email_text = document.querySelector('.email_text');
+  email_check.addEventListener('input', () => {
+
+    if (email_check.value.match(emailPattern)) {
+      email_match.classList.add('valid');
+    email_text.classList.add('match');
+      email_message.classList.add('vaild_email');
+      email_message.classList.remove('invaild_email');
+    }
+    else {
+    email_text.classList.remove('match');
+      email_message.classList.remove('vaild_email');
+      email_message.classList.add('invaild_email');
+      email_match.classList.remove('valid');
+      if (email_check.value == "") {
+        email_message.classList.add('empty_email');
+      }
+      else {
+        email_message.classList.remove('empty_email');
+      }
+    }
+  });
+    const email_message_box = document.getElementById('message_email');
+   email_check.addEventListener('click', () => {email_message_box.innerHTML=`<span class="input_title">${'<?= __('Please insert email in correct format:') ?>'} </span> <span class="input_content">${'<?=__('Ex: ')?>'}example@test.com</span>`; });
+   email_check.onblur  = function() {
+     email_message.style.display = "none"
+     email_message.classList.remove('invaild_email');}
+   email_check.onclick  = function() {
+     if (email_check.value.match(emailPattern)) {
+      email_match.classList.add('valid');
+    email_text.classList.add('match');
+      email_message.classList.add('vaild_email');
+      email_message.classList.remove('invaild_email');
+    }
+    else {
+    email_text.classList.remove('match');
+      email_message.classList.remove('vaild_email');
+      email_message.classList.add('invaild_email');
+      email_match.classList.remove('valid');
+      if (email_check.value == "") {
+        email_message.classList.add('empty_email');
+      }
+      else {
+        email_message.classList.remove('empty_email');
+      }
+    }
+   }
+  const confirm_password = document.getElementById("password-confirmation");
+  const confirm_password_error = document.getElementById("password-confirmation-error");
+  const confirmpwdmatch = document.querySelector('.confirm_password_text');
+  function confirm_password_valid(){
+
+    const confirm_password_match = document.querySelector('.check_confirm_pwd');
+
+  if (confirm_password.value == myInput.value && confirm_password.value != "") {
+      confirm_password_match.classList.add('valid');
+      confirmpwdmatch.classList.add('match');
+      confirm_password_error.classList.add('valid_info_empty_none');
+    confirm_password_error.classList.remove('check_confirm_password');
+    }
+    else {
+      confirmpwdmatch.classList.remove('match');
+      confirm_password_match.classList.remove('valid');
+      confirm_password_error.classList.remove('valid_info_empty_none');
+    confirm_password_error.classList.add('check_confirm_password');
+    }
+  }
+  confirm_password.onblur  = function() {
+  confirm_password_error.classList.remove('check_confirm_password');
+  confirm_password_error.style.display = "none"
+  }
+  //confirm password
+  confirm_password.addEventListener('input', ()=> {confirm_password_valid();});
+  confirm_password.addEventListener('click', ()=> {confirm_password_valid();
+  confirm_password_error.innerHTML="Please enter the same value again.";
+  confirm_password.addEventListener('change', ()=> {confirm_password_valid();});
+
+</script-->
+
+
+
+{% endblock %}

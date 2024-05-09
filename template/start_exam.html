@@ -1,0 +1,351 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NTA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./images/favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static '/css/style.css' %}" />
+  </head>
+  <body>
+    <header>
+      <div class="top-bar">
+        <div class="container">
+          <div class="links">
+            <ul class="d-flex gap-2">
+              Answered all questions clearly
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="main-header">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-1">
+              <div class="header-img">
+                <img src="{% static '/images/150g.png' %}" alt="150 years" />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="header-img nta-img">
+                <img src="{% static '/images/NTA_logo.png' %}" alt="NTA logo" />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="header-img">
+                <img
+                  src="{% static '/images/moe1.png' %}"
+                  alt="ministery of education"
+                />
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="header-img">
+                <img src={% static '/images/akam.png' %}" alt="75 years of
+                azadi" />
+              </div>
+            </div>
+            <div class="col-md-2"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="candidate-details">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="user-profile d-flex gap-2">
+              <div class="user-icon">
+                <i class="fa-solid fa-user fa-2xl user"></i>
+              </div>
+              <div class="exam-details">
+                <p>
+                  Candidate Email :
+                  <span class="input-details">{{user_email}}</span>
+                </p>
+                <p>
+                  Exam Name :
+                  <span class="input-details">{{ exam.title }}</span>
+                </p>
+                <!-- <p>
+                  Subject Name :
+                  <span class="input-details"
+                    >40503621_BTECH 8th Jan 2020 Shift 2</span
+                  >
+                </p> -->
+                <p>
+                  Total Remaining Time :
+                  <span class="input-details"
+                    ><span id="total_exam_duration">{{ remaining_time }} </span
+                    >minutes</span
+                  >
+                </p>
+                <p>
+                  QRemaining Time :
+                  <span class="input-details"
+                    ><span id="examduration_1"> </span> minutes</span
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <form>
+              <select name="language" id="select-lang">
+                <option value="1">English</option>
+                <option value="2">Hindi</option>
+                <option value="3">Gujarati</option>
+              </select>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="banner">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 col-lg-8">
+            <div class="question">
+              <div class="question-heading">
+                <h4>Question 1:</h4>
+              </div>
+              <div class="question-text">
+                <p>{{ question_data.text }}</p>
+                <h5>Options :</h5>
+              </div>
+              <ul class="options">
+                <li>
+                  <span class="option-numbering">1.</span>
+                  {{question_data.option1}}
+                </li>
+                <li>
+                  <span class="option-numbering">2.</span>
+                  {{question_data.option2}}
+                </li>
+                <li>
+                  <span class="option-numbering">3.</span>
+                  {{question_data.option3}}
+                </li>
+                <li>
+                  <span class="option-numbering">4.</span>
+                  {{question_data.option3}}
+                </li>
+              </ul>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                      <input type="radio" name="ans" value="option1" /> 1 )
+                    </td>
+                    <td>
+                      <input type="radio" name="ans" value="option2" /> 2 )
+                    </td>
+                    <td>
+                      <input type="radio" name="ans" value="option3" /> 3 )
+                    </td>
+                    <td>
+                      <input type="radio" name="ans" value="option4" /> 4 )
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="question-btn">
+              {% csrf_token %}
+              <div class="btn d-flex gap-3 flex-wrap flex-md-nowrap">
+                <div class="button">
+                  <a
+                    href=""
+                    class="btn btn-success"
+                    data-qid="{{question_data.id}}"
+                    data-page="1"
+                    id="save_next"
+                    >SAVE & NEXT</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="panel-footer d-flex justify-content-between">
+              <div class="button-left">
+                <a
+                  href=""
+                  class="btn btn-default"
+                  data-qid="{{question_data.id}}"
+                >
+                  << BACK</a
+                >
+                <a
+                  href=""
+                  class="btn btn-default"
+                  data-qid="{{question_data.id}}"
+                  data-page="1"
+                  onclick="nextQuestion('{{exam.id}}')"
+                  id="nextQuestion"
+                  >NEXT >></a
+                >
+              </div>
+              <div class="button-right">
+                <a
+                  href=""
+                  class="btn btn-success"
+                  onclick="completeExam('{{ exam.title }}')"
+                  >SUBMIT</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-12">
+            <div class="pagination">
+              <ul class="d-flex flex-wrap gap-1 ps-0 mt-5 mt-md-0">
+                <li><a href="" class="page">1</a></li>
+                <li><a href="" class="page">2</a></li>
+                <li><a href="" class="page">3</a></li>
+                <li><a href="" class="page">4</a></li>
+                <li><a href="" class="page">5</a></li>
+                <li><a href="" class="page">6</a></li>
+                <li><a href="" class="page">7</a></li>
+                <li><a href="" class="page">8</a></li>
+                <li><a href="" class="page">9</a></li>
+                <li><a href="" class="page">10</a></li>
+                <li><a href="" class="page">11</a></li>
+                <li><a href="" class="page">12</a></li>
+                <li><a href="" class="page">13</a></li>
+                <li><a href="" class="page">14</a></li>
+                <li><a href="" class="page">15</a></li>
+                <li><a href="" class="page">16</a></li>
+                <li><a href="" class="page">17</a></li>
+                <li><a href="" class="page">18</a></li>
+                <li><a href="" class="page">19</a></li>
+                <li><a href="" class="page">20</a></li>
+                <li><a href="" class="page">21</a></li>
+                <li><a href="" class="page">22</a></li>
+                <li><a href="" class="page">23</a></li>
+                <li><a href="" class="page">24</a></li>
+                <li><a href="" class="page">25</a></li>
+                <li><a href="" class="page">26</a></li>
+                <li><a href="" class="page">27</a></li>
+                <li><a href="" class="page">28</a></li>
+                <li><a href="" class="page">29</a></li>
+                <li><a href="" class="page">30</a></li>
+                <li><a href="" class="page">31</a></li>
+                <li><a href="" class="page">32</a></li>
+                <li><a href="" class="page">34</a></li>
+                <li><a href="" class="page">35</a></li>
+                <li><a href="" class="page">36</a></li>
+                <li><a href="" class="page">37</a></li>
+                <li><a href="" class="page">38</a></li>
+                <li><a href="" class="page">39</a></li>
+                <li><a href="" class="page">40</a></li>
+                <li><a href="" class="page">41</a></li>
+                <li><a href="" class="page">42</a></li>
+                <li><a href="" class="page">43</a></li>
+                <li><a href="" class="page">44</a></li>
+                <li><a href="" class="page">45</a></li>
+                <li><a href="" class="page">46</a></li>
+                <li><a href="" class="page">47</a></li>
+                <li><a href="" class="page">48</a></li>
+                <li><a href="" class="page">49</a></li>
+                <li><a href="" class="page">50</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <p>© All Rights Reserved - National Testing Agency</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      function nextQuestion(id) {
+        let page = jQuery("#nextQuestion").attr("data-page");
+        let qid = jQuery("#nextQuestion").attr("data-qid");
+        let csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val();
+        $.ajax({
+          type: "POST",
+          url: "/get_next_question",
+          data: {
+            page: page,
+            id: id,
+            qid: qid,
+            csrfmiddlewaretoken: csrfmiddlewaretoken,
+          },
+          cache: false,
+          success: function (data) {
+            console.log(data);
+          },
+        });
+      }
+
+      var exam_duration = "{{ remaining_time }}";
+      var num_questions = "{{ num_questions }}";
+      remaintimeing = exam_duration / num_questions;
+      document.getElementById("examduration_1").innerText = remaintimeing;
+
+      // Get the total exam duration in minutes
+      var totalExamDuration = parseInt(
+        document.getElementById("total_exam_duration").innerText
+      );
+
+      // Get the total exam duration in minutes and convert it to seconds
+      var totalExamDuration = parseInt("{{ remaining_time }}") * 60;
+      var countdownInterval = setInterval(function () {
+        totalExamDuration--;
+        var totalMinutes = Math.floor(totalExamDuration / 60);
+        var totalSeconds = totalExamDuration % 60;
+        document.getElementById("total_exam_duration").innerText =
+          totalMinutes + ":" + (totalSeconds < 10 ? "0" : "") + totalSeconds;
+        if (totalExamDuration <= 0) {
+          clearInterval(countdownInterval);
+          alert("Time's up!");
+        }
+      }, 1000);
+
+      var remaintimeing = parseInt(remaintimeing) * 60;
+      var countdownInterval1 = setInterval(function () {
+        // Decrement the remaining time by one second
+        remaintimeing--;
+
+        // Calculate the total minutes and seconds
+        var totalMinutes1 = Math.floor(remaintimeing / 60);
+        var totalSeconds1 = remaintimeing % 60;
+
+        // Display the remaining time in the HTML
+        document.getElementById("examduration_1").innerText =
+          totalMinutes1 + ":" + (totalSeconds1 < 10 ? "0" : "") + totalSeconds1;
+
+        // Check if the remaining time has reached zero
+        if (remaintimeing <= 0) {
+          clearInterval(countdownInterval1); // Stop the countdown timer
+          // Optionally, you can perform some action when the time runs out
+          alert("Time's up!");
+        }
+      }, 1000); // Update every second (1000 milliseconds)
+    </script>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+{% extends "main.html" %} {% block content %}
+<div class="exam-list">
+  <div class="exam_details w-50">
+    <h1 class="mt-5">Exam List</h1>
+    <ul class="list-group">
+      {% for exam in exams %}
+      <li class="list-group-item">
+        <a href="{% url 'exam_details' exam.id %}">{{ exam.title }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="instructions">
+    <h2>Instructions for Taking an Exam:</h2>
+    <ol>
+      <li>
+        <strong>Browse the Exam List:</strong> Scroll through the list of
+        available exams to find the one you're interested in.
+      </li>
+      <li>
+        <strong>Click on Exam Title:</strong> Click on the title of the exam you
+        wish to explore further. This will take you to a page with more details
+        about the selected exam.
+      </li>
+      <li>
+        <strong>Review Exam Details:</strong> On the exam details page, you'll
+        find information such as exam duration, syllabus, and any prerequisites.
+        Take your time to review this information carefully.
+      </li>
+      <li>
+        <strong>Prepare Accordingly:</strong> Based on the details provided,
+        prepare yourself adequately for the exam. This may involve studying
+        relevant materials, practicing sample questions, or seeking additional
+        resources.
+      </li>
+      <li>
+        <strong>Register for the Exam (if necessary):</strong> If registration
+        is required for the exam, follow the provided instructions to complete
+        the registration process. Ensure you meet any eligibility criteria and
+        pay any required fees.
+      </li>
+      <li>
+        <strong>Take the Exam:</strong> On the scheduled date and time, take the
+        exam following the specified instructions. Good luck!
+      </li>
+      <li>
+        <strong>Review Results:</strong> After completing the exam, review your
+        results if they are provided immediately or await notification regarding
+        your performance.
+      </li>
+    </ol>
+  </div>
+</div>
+
+<style>
+  body {
+    background: radial-gradient(#dd0000, transparent);
+    background-repeat: repeat;
+    background-repeat: no-repeat;
+    height: 100vh;
+  }
+  .exam-list {
+    width: 50%; /* Adjust the width as needed */
+    margin: 0 auto; /* Center the box horizontally */
+    background-color: #ffffff; /* Background color of the box */
+    border: 2px solid #000000; /* Border around the box */
+    padding: 20px; /* Padding inside the box */
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5); /* Box shadow for a subtle effect */
+  }
+
+  .exam_details {
+    text-align: center; /* Center the content inside the box */
+  }
+
+  .exam_details h1 {
+    margin-top: 0; /* Remove default margin for the heading */
+  }
+
+  .list-group-item {
+    border: none; /* Remove borders around list items */
+  }
+</style>
+
+{% endblock %}

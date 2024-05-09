@@ -1,0 +1,138 @@
+{% extends "main.html" %} {% block content %}
+<div class="exam-details">
+  <div class="mt-5 w-50">
+    <h1>Start Exam - {{ exam.title }}</h1>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Exam Details:</h5>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            Duration: {{ remaining_time }} minutes
+          </li>
+          <li class="list-group-item">
+            Start Time: <span id="start_time"></span>
+          </li>
+          <li class="list-group-item">End Time: <span id="end_time"></span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-3 float-end">
+      <button
+        type="button"
+        onclick="startExam()"
+        id="start_exam"
+        class="btn btn-primary"
+      >
+        Start Exam
+      </button>
+    </div>
+
+    <script>
+      function startExam() {
+        document.getElementById("start_exam").disabled = true;
+        var screenWidth = window.screen.width;
+        var screenHeight = window.screen.height;
+        var features =
+          "toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=" +
+          screenWidth +
+          ",height=" +
+          screenHeight;
+        var newWindow = window.open(
+          "/views_exam_details/{{id}}",
+          "_blank",
+          features
+        );
+      }
+      // Create a new Date object
+      // Create a new Date object
+      var currentDateTime = new Date();
+
+      // Get the current date and time components
+      var currentYear = currentDateTime.getFullYear();
+      var currentMonth = currentDateTime.getMonth() + 1; // Months are zero-based, so we add 1
+      var currentDate = currentDateTime.getDate();
+      var currentHours = currentDateTime.getHours();
+      var currentMinutes = currentDateTime.getMinutes();
+      var currentSeconds = currentDateTime.getSeconds();
+
+      // Format the date and time components to ensure they have leading zeros if needed
+      currentMonth = (currentMonth < 10 ? "0" : "") + currentMonth;
+      currentDate = (currentDate < 10 ? "0" : "") + currentDate;
+      currentHours = (currentHours < 10 ? "0" : "") + currentHours;
+      currentMinutes = (currentMinutes < 10 ? "0" : "") + currentMinutes;
+      currentSeconds = (currentSeconds < 10 ? "0" : "") + currentSeconds;
+
+      // Construct the formatted date and time string
+      var currentDateTimeString =
+        currentYear +
+        "-" +
+        currentMonth +
+        "-" +
+        currentDate +
+        " " +
+        currentHours +
+        ":" +
+        currentMinutes +
+        ":" +
+        currentSeconds;
+
+      // Display the formatted date and time
+      console.log("Current date and time:", currentDateTimeString);
+
+      var examDurationMinutes = parseInt("{{ exam.duration }}");
+
+      // Calculate the end time by adding the exam duration to the current time
+      var endDateTime = new Date(
+        currentDateTime.getTime() + examDurationMinutes * 60000
+      );
+
+      // Format the end date and time components to ensure they have leading zeros if needed
+      var endYear = endDateTime.getFullYear();
+      var endMonth = endDateTime.getMonth() + 1; // Months are zero-based, so we add 1
+      var endDate = endDateTime.getDate();
+      var endHours = endDateTime.getHours();
+      var endMinutes = endDateTime.getMinutes();
+      var endSeconds = endDateTime.getSeconds();
+
+      endMonth = (endMonth < 10 ? "0" : "") + endMonth;
+      endDate = (endDate < 10 ? "0" : "") + endDate;
+      endHours = (endHours < 10 ? "0" : "") + endHours;
+      endMinutes = (endMinutes < 10 ? "0" : "") + endMinutes;
+      endSeconds = (endSeconds < 10 ? "0" : "") + endSeconds;
+
+      var endDateTimeString =
+        endYear +
+        "-" +
+        endMonth +
+        "-" +
+        endDate +
+        " " +
+        endHours +
+        ":" +
+        endMinutes +
+        ":" +
+        endSeconds;
+
+      // Display the end date and time
+      console.log("End date and time:", endDateTimeString);
+
+      // Display start and end time in the HTML document
+      document.getElementById("start_time").innerText = currentDateTimeString;
+      document.getElementById("end_time").innerText = endDateTimeString;
+    </script>
+
+    <style>
+      body {
+        background: radial-gradient(#dd0000, transparent);
+      }
+
+      .exam-details {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </div>
+  {% endblock %}
+</div>
